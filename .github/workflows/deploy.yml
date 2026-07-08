@@ -14,14 +14,12 @@ jobs:
 
       - name: Build and Run Python Ingestor
         run: |
-          # 1. Navigate to the python project folder
           cd python-ingestor
-          
-          # 2. Build the Docker image from your Dockerfile
           docker build -t portfolio-ingestor:latest .
           
-          # 3. Run the container on the database's network
           docker run --rm \
             --network database_default \
             -e DB_HOST=portfolio_db \
+            -e DB_USER="${{ secrets.DB_USER }}" \
+            -e DB_PASS="${{ secrets.DB_PASS }}" \
             portfolio-ingestor:latest
