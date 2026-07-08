@@ -1,0 +1,19 @@
+name: CI/CD Portfolio Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Test Server Connection
+        run: |
+          echo "Hello from the deployment pipeline!"
+          echo "This command is running directly on your Ubuntu Server."
+          docker ps
