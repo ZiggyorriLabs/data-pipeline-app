@@ -12,8 +12,16 @@ jobs:
       - name: Checkout Repository Code
         uses: actions/checkout@v4
 
-      - name: Test Server Connection
+      - name: Build and Run Python Ingestor
         run: |
-          echo "Hello from the deployment pipeline!"
-          echo "This command is running directly on your Ubuntu Server."
-          docker ps
+          # 1. Navigate to the python project folder
+          cd python-ingestor
+          
+          # 2. Build the Docker image from your Dockerfile
+          docker build -t portfolio-ingestor:latest .
+          
+          # 3. Run the container on the database's network
+          docker run --rm \
+            --network database_default \
+            -e DB_HOST=portfolio_db \
+            portfolio-ingestor:latest
